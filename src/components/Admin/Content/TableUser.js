@@ -1,7 +1,7 @@
 import React from 'react';
 
 function TableUser(props) {
-    const {listUser, handleClickBtnUpdate, handleClickBtnView} = props
+    const {listUser, handleClickBtnUpdate, handleClickBtnView, handleClickBtnDelete} = props
     
     return (
         <div>
@@ -25,7 +25,7 @@ function TableUser(props) {
                         <td>
                             <button className='btn btn-primary' onClick={() => handleClickBtnView(item)}>View</button>
                             <button className='btn btn-secondary mx-3' onClick={() => handleClickBtnUpdate(item)}>Update</button>
-                            <button className='btn btn-warning'>Delete</button>
+                            <button className='btn btn-warning' onClick={() => handleClickBtnDelete(item)}>Delete</button>
                         </td>
                         </tr>
                     ))}

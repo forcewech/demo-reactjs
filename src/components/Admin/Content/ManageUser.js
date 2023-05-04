@@ -6,12 +6,15 @@ import TableUser from "./TableUser";
 import { getAllUser } from "../../../services/apiService";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalViewUser from "./ModalViewUser";
+import ModalDeleteUser from "./ModalDeleteUser";
 
 const ManageUser = (props) => {
     const [showModalCreateUser, setShowModalCreateUser] = useState(false);
     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
     const [showModalViewUser, setShowModalViewUser] = useState(false);
+    const [showModalAnnouce, setShowModalAnnouce] = useState(false);
     const [dataUpdate, setDataUpdate] = useState({});
+    const [dataDelete, setDataDelete] = useState({});
     const [listUser, setListUser] = useState([]);
     const fetchAllUser = async () => {
         let res = await getAllUser();
@@ -30,6 +33,10 @@ const ManageUser = (props) => {
         setShowModalViewUser(true);
         setDataUpdate(user)
     }
+    const handleClickBtnDelete = (user) => {
+        setShowModalAnnouce(true);
+        setDataDelete(user)
+    }
     return (
         <div className="manage-user-container">
             <div className="title">
@@ -40,11 +47,12 @@ const ManageUser = (props) => {
                     <button className="btn btn-primary" onClick={() => setShowModalCreateUser(true)}><FcPlus></FcPlus>Add new users</button>
                 </div>               
                 <div className="table-users-container">
-                    <TableUser listUser={listUser} handleClickBtnUpdate={handleClickBtnUpdate} handleClickBtnView={handleClickBtnView}></TableUser>
+                    <TableUser listUser={listUser} handleClickBtnUpdate={handleClickBtnUpdate} handleClickBtnView={handleClickBtnView} handleClickBtnDelete={handleClickBtnDelete}></TableUser>
                 </div>
                 <ModalCreateUser fetchAllUser={fetchAllUser} show={showModalCreateUser} setShow={setShowModalCreateUser}/>
                 <ModalUpdateUser fetchAllUser={fetchAllUser} show={showModalUpdateUser} setShow={setShowModalUpdateUser} dataUpdate={dataUpdate} setDataUpdate={setDataUpdate}/>
                 <ModalViewUser show={showModalViewUser} setShow={setShowModalViewUser} dataUpdate={dataUpdate} setDataUpdate={setDataUpdate}/>
+                <ModalDeleteUser show={showModalAnnouce} setShow={setShowModalAnnouce} dataDelete={dataDelete} setDataDelete={setDataDelete} fetchAllUser={fetchAllUser}/>
             </div>         
         </div>
     )
