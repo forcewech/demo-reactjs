@@ -19,8 +19,8 @@ const Header = () => {
                         <NavLink to='/admins' className='nav-link'>Admin</NavLink>
                     </Nav>
                     <Nav>
-                        <button className='btn btn-primary mx-3' onClick={() => handleLogin()}>Login</button>
-                        <button className='btn btn-secondary'>Logout</button>
+                        <button style={{border: "1px solid black"}} className='btn mx-3' onClick={() => handleLogin()}>Login</button>
+                        <NavLink to='/register'><button style={{backgroundColor: "black", color: "white"}} className='btn'>Sign up</button></NavLink>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -3,14 +3,30 @@ import './Login.scss'
 import { useNavigate } from 'react-router-dom';
 import { postLogin } from '../../services/apiService';
 import { toast } from 'react-toastify';
-
+import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const navigate = useNavigate();
   const handleLogin = async () => {
     //validate
-
+    const validateEmail = (email) => {
+      return String(email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    };
+    const isValidEmail = validateEmail(email)
+      if(!isValidEmail){
+        toast.error('Invalid email')
+        return;
+      }
+      if(!password){
+        toast.error('Invalid password')
+        return;
+      }
     //submit apis
     let data = await postLogin(email, password);
     if(data && data.EC === 0){
@@ -21,11 +37,14 @@ const Login = () => {
         toast.error(data.EM);
       }
   }
+  const navigateRegister = () => {
+    navigate('/register')
+  }
   return (
     <div className='login-container'>
         <div className='header'>
             <span>Don't have an account yet?</span>
-            <button>Sign up</button>
+            <button onClick={navigateRegister}>Sign up</button>
         </div>
         <div className='title col-4 mx-auto'>HoiDanIT</div>
         <div className='welcome col-4 mx-auto'>Hello, who's this?</div>
@@ -42,11 +61,20 @@ const Login = () => {
             <div className='form-group'>
                 <label>Password</label>
                 <input 
-                type={"password"} 
+                type={isShowPassword ? "text" : "password"}
                 className="form-control" 
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 />
+                {isShowPassword ? 
+                   <span className='icons-eye' onClick={() => setIsShowPassword(false)}>
+                    <VscEye></VscEye>
+                   </span> 
+                   :
+                   <span className='icons-eye' onClick={() => setIsShowPassword(true)}>
+                    <VscEyeClosed></VscEyeClosed>
+                   </span>
+                   }
             </div>
             <span className='forgot-password'>Forgot password ?</span>
             <div>
