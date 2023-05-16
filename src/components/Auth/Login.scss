@@ -39,6 +39,11 @@
             border-radius: 5px;
             color: white;
             background-color: black;
+            &:disabled {
+                background-color: #ddd;
+                color: #ccc;
+                cursor: no-drop;
+            }
         }
     }
     .form-group {

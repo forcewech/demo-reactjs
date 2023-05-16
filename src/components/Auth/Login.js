@@ -4,11 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import { postLogin } from '../../services/apiService';
 import { toast } from 'react-toastify';
 import { VscEye, VscEyeClosed } from 'react-icons/vsc';
+import { useDispatch } from 'react-redux';
+import fetchUser from '../../redux/action/userAction';
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleLogin = async () => {
     //validate
     const validateEmail = (email) => {
@@ -27,14 +32,18 @@ const Login = () => {
         toast.error('Invalid password')
         return;
       }
+    setIsLoading(true);
     //submit apis
     let data = await postLogin(email, password);
     if(data && data.EC === 0){
+        dispatch(fetchUser(data))
         toast.success(data.EM);
+        setIsLoading(false);
         navigate('/')
       }
       if(data && data.EC !== 0){
         toast.error(data.EM);
+        setIsLoading(false);
       }
   }
   const navigateRegister = () => {
@@ -79,6 +88,7 @@ const Login = () => {
             <span className='forgot-password'>Forgot password ?</span>
             <div>
                 <button 
+                disabled={isLoading}
                 className='btn-submit'
                 onClick={() => handleLogin()}
                 >Login to HoiDanIT</button>
